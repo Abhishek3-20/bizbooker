@@ -1,0 +1,30 @@
+# Python
+*.pyc
+__pycache__/
+
+# Environment
+.env
+venv/
+env/
+
+# Django
+db.sqlite3
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Node (if used)
+node_modules/
+
+# Static files
+staticfiles/

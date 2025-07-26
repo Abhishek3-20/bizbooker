@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BizBooker</title>
+
+  <!-- Tailwind CSS + DaisyUI -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brandbg: '#E9FFDB'
+          }
+        }
+      },
+      plugins: [daisyui]
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/daisyui@3.7.0"></script>
+</head>
+
+<body class="bg-brandbg text-gray-800 dark:text-white">
+
+  <!-- HEADER (white, nav starts from center to right) -->
+  <header>
+    <div class="header-container">
+      <div class="logo-nav" style="display: flex; align-items: center; justify-content: space-between;">
+        <!-- LOGO -->
+        <div class="logo" style="display: flex; align-items: center; gap: 10px;">
+          <img src="{% static 'images/logo.svg' %}" alt="BizBooker Logo" style="height: 40px; width: 40px;" />
+          <span style="font-weight: bold; font-size: 1.2rem; color: #333;">BizBooker</span>
+        </div>
+  
+        <!-- NAVIGATION -->
+        <nav style="display: flex; gap: 1rem;">
+          {% if request.path != '/' %}
+            <a href="/">Home</a>
+          {% endif %}
+          <a href="{% url 'services' %}">Services</a>
+          <a href="{% url 'book_service' %}">Book</a>
+          {% if user.is_authenticated %}
+            <a href="{% url 'my_bookings' %}">My Bookings</a>
+            <a href="{% url 'dashboard' %}">Dashboard</a>
+            <a href="{% url 'logout' %}" style="color: red;">Logout</a>
+          {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}">Register</a>
+          {% endif %}
+        </nav>
+      </div>
+    </div>
+  </header>
+  
+  
+  <!-- MAIN PAGE CONTENT -->
+  <main class="pt-24 min-h-screen">
+    {% block content %}
+    {% endblock %}
+  </main>
+
+  <!-- FOOTER (white background) -->
+  <footer class="bg-white text-center text-sm text-gray-600 py-6 border-t mt-12">
+    © 2025 BizBooker. All rights reserved.
+  </footer>
+
+</body>
+</html>

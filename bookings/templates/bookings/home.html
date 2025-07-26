@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- HERO SECTION with background and two-column layout -->
+<section class="min-h-[80vh] flex flex-col justify-center items-center px-6">
+  <div class="main-wrapper">
+    <div class="main-content">
+      <!-- LEFT: Text Section -->
+      <div class="left">
+        <h1>Welcome to BizBooker</h1>
+        <p>
+          Book services, manage appointments, and grow your business with ease.
+        </p>
+        <a href="{% url 'book_service' %}" class="book-btn">Book Now</a>
+      </div>
+
+      <!-- RIGHT: Image Section -->
+      <div class="right">
+        <img src="{% static 'images/img1.svg' %}" alt="Booking Illustration" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS SECTION -->
+<section class="services-section">
+  <h2 class="services-heading">Why Choose BizBooker?</h2>
+
+  <div class="service-row">
+    <div class="service-img">
+      <img src="{% static 'images/clock.svg' %}" alt="Easy Booking" />
+    </div>
+    <div class="service-text">
+      <h3>Instant Scheduling</h3>
+      <p>Allow your customers to book appointments 24/7 from any device, with real-time confirmation.</p>
+    </div>
+  </div>
+
+  <div class="service-row reverse">
+    <div class="service-img">
+      <img src="{% static 'images/customer.svg' %}" alt="Client CRM" />
+    </div>
+    <div class="service-text">
+      <h3>All-in-One CRM</h3>
+      <p>Track customer data, booking history, and notes — all in one clean, organized dashboard.</p>
+    </div>
+  </div>
+
+  <div class="service-row">
+    <div class="service-img">
+      <img src="{% static 'images/dashboard.svg' %}" alt="Analytics" />
+    </div>
+    <div class="service-text">
+      <h3>Smart Dashboard</h3>
+      <p>Analyze appointments, peak times, and revenue stats with easy-to-read visualizations.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS SECTION -->
+<section class="bg-gray-100 py-16 px-6">
+  <h2 class="text-3xl font-bold text-center text-gray-800 mb-10">What Our Users Say</h2>
+  <div class="service-grid">
+    <div class="service-card">
+      <p>“BizBooker is a lifesaver! My salon clients can now book anytime without calling.”</p>
+      <p class="mt-3 font-semibold text-green-700">– Priya, Salon Owner</p>
+    </div>
+    <div class="service-card">
+      <p>“The dashboard insights helped me double my bookings. It's my secret weapon.”</p>
+      <p class="mt-3 font-semibold text-green-700">– Aman, Personal Trainer</p>
+    </div>
+    <div class="service-card">
+      <p>“Managing appointments across 3 branches is so simple now.”</p>
+      <p class="mt-3 font-semibold text-green-700">– Kavita, Spa Chain Manager</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA SECTION -->
+<section class="cta-section">
+  <h2 class="cta-heading">Start Booking Smarter</h2>
+  <div class="cta-card glass-card">
+    <p>No setup fees. Get started in 2 minutes. Trusted by 500+ businesses.</p>
+    <a href="#" class="cta-btn">Create Free Account</a>
+  </div>
+</section>
+
+<section class="faq-section">
+  <h2 class="faq-heading">Frequently Asked Questions</h2>
+  <div class="faq-grid">
+    <div class="faq-card glass-card">
+      <h3>Is BizBooker really free?</h3>
+      <p>Yes! Our free plan offers essential features for small businesses.</p>
+    </div>
+    <div class="faq-card glass-card">
+      <h3>Can I use it for multiple services?</h3>
+      <p>Absolutely. BizBooker supports multiple services and staff calendars.</p>
+    </div>
+    <div class="faq-card glass-card">
+      <h3>Is support available?</h3>
+      <p>Yes — email, live chat, and a full Help Center are available 24/7.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="footer-section">
+  <div>
+    <h3 class="footer-logo">BizBooker</h3>
+    <p class="footer-contact-desc">Your all-in-one platform for appointment-based businesses.</p>
+    <div class="social-icons">
+      <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+    </div>
+  </div>
+  <div>
+    <h3>Solutions</h3>
+    <p><a href="#">For Salons</a></p>
+    <p><a href="#">For Personal Trainers</a></p>
+    <p><a href="#">For Therapists</a></p>
+    <p><a href="#">Pricing</a></p>
+  </div>
+  <div>
+    <h3>Company</h3>
+    <p><a href="#">About Us</a></p>
+    <p><a href="#">Careers</a></p>
+    <p><a href="#">Blog</a></p>
+  </div>
+  <div class="footer-contact">
+    <h3>Contact Us</h3>
+    <p>Email: <a href="mailto:hello@bizbooker.fake">hello@bizbooker.fake</a></p>
+    <p>Phone: +91-98765-43210</p>
+    <p>Address: 123, Booking Blvd, Digital City, 110001</p>
+  </div>
+  <div class="footer-support">
+    <h3>Support</h3>
+    <p><a href="#">Help Center</a></p>
+    <p><a href="#">API Docs</a></p>
+    <p><a href="#">System Status</a></p>
+    <p><a href="#">Privacy Policy</a></p>
+    <p><a href="#">Terms of Service</a></p>
+  </div>
+  <p class="footer-copyright">© 2025 BizBooker. All rights reserved.</p>
+</footer>
+{% endblock %}

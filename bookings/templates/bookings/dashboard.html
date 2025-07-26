@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<section class="main-wrapper">
+  <div class="main-content">
+    <div class="left">
+      <section class="dashboard-section">
+        <h2 class="dashboard-heading">📊 Dashboard</h2>
+        <div class="dropdown-container">
+          <select class="dropdown-btn">
+            <option value="">-- Choose View --</option>
+            <option value="today">Today's Bookings</option>
+          </select>
+        </div>
+        <div class="dashboard-card glass-card">
+          <h3>Today's Bookings: {{ today_count }}</h3>
+          {% for booking in all_bookings %}
+            {% if booking.date == today %}
+              <p>{{ booking.service.name }} — {{ booking.time }}</p>
+            {% endif %}
+          {% empty %}
+            <p>No bookings for today.</p>
+          {% endfor %}
+        </div>
+      </section>
+    </div>
+    <div class="right">
+      <img src="{% static 'images/dashboard-bg.svg' %}" alt="Dashboard Image">
+    </div>
+  </div>
+</section>
+
+{% endblock %}
