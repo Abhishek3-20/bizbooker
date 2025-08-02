@@ -22,7 +22,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bookings',  # your app
     'widget_tweaks',
+    'tailwind',
+    
+    'django_browser_reload',
+ # Required
 ]
+import shutil
+NPM_BIN_PATH = shutil.which("npm")
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -32,6 +39,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_browser_reload.middleware.BrowserReloadMiddleware',
+
 ]
 
 ROOT_URLCONF = 'bizbooker.urls'
@@ -98,3 +107,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 LOGIN_URL = '/login/'
 
 LOGIN_REDIRECT_URL = '/dashboard/'
+
+
+

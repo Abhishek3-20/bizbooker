@@ -27,10 +27,12 @@ class TimeSlot(models.Model):
 # Represents a user's actual booking of a service at a time
 class Booking(models.Model):
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
-    date = models.DateField(null=True, blank=True)   # ✅ allow nulls temporarily
-    time = models.TimeField(null=True, blank=True) # ✅ Required
+    date = models.DateField(null=True, blank=True)
+    time = models.TimeField(null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    created_at = models.DateTimeField(null=True, blank=True)  # ✅ new field
+    created_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return f"{self.name} - {self.service.name} on {self.timeslot.date}"
+        if self.user:
+            return f"{self.user.username} - {self.service.name} on {self.date} at {self.time}"
+        return f"{self.service.name} on {self.date} at {self.time}"

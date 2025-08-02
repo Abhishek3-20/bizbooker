@@ -1,4 +1,9 @@
+from django.shortcuts import render, get_object_or_404, redirect
+
 from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib.auth import logout
+from .forms import SimpleRegisterForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
@@ -11,19 +16,25 @@ def home(request):
     return render(request, 'bookings/home.html')
 
 def login_view(request):
-    return render(request, 'bookings/login.html')
-
-def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
             login(request, user)
-            return redirect('dashboard')
-    else:
-        form = UserCreationForm()
-    
-    return render(request, 'bookings/register.html', {'form': form})
+
+            # 👇 This is what sends them to the dashboard
+            next_url = request.GET.get('next')
+            return redirect(next_url if next_url else 'dashboard')
+
+        else:
+            messages.error(request, 'Invalid username or password.')
+
+    return render(request, 'bookings/login.html')
+def logout_view(request):
+    logout(request)
+    return redirect('home')  
 
 @login_required
 def book_service(request):
@@ -72,16 +83,21 @@ def services(request):
 def admin_dashboard(request):
     today = timezone.now().date()
 
-    # ✅ Fixed: removed 'timeslot' usage
-    all_bookings = Booking.objects.select_related('service').order_by('-created_at')
+    # ✅ Show all bookings only to staff, else only user's bookings
+    if request.user.is_staff:
+        all_bookings = Booking.objects.select_related('service').order_by('-created_at')
+    else:
+        all_bookings = Booking.objects.filter(user=request.user).select_related('service').order_by('-created_at')
 
     today_count = all_bookings.filter(date=today).count()
     total_count = all_bookings.count()
 
+    # Only show service stats to staff (optional)
     service_counts = {}
-    for service in Service.objects.all():
-        count = all_bookings.filter(service=service).count()
-        service_counts[service.name] = count
+    if request.user.is_staff:
+        for service in Service.objects.all():
+            count = all_bookings.filter(service=service).count()
+            service_counts[service.name] = count
 
     context = {
         'all_bookings': all_bookings,
@@ -90,8 +106,38 @@ def admin_dashboard(request):
         'service_counts': service_counts
     }
     return render(request, 'bookings/dashboard.html', context)
-
 @login_required
 def my_bookings(request):
     bookings = Booking.objects.filter(user=request.user).select_related('service').order_by('-date', '-time')
     return render(request, 'bookings/my_bookings.html', {'bookings': bookings})
+
+def edit_booking(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id)
+
+    if request.method == 'POST':
+        form = BookingForm(request.POST, instance=booking)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+    else:
+        form = BookingForm(instance=booking)
+
+    return render(request, 'booking_form.html', {'form': form, 'edit_mode': True})
+
+def delete_booking(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id)
+
+    if request.method == 'POST':
+        booking.delete()
+        return redirect('dashboard')
+    
+def register_view(request):
+    if request.method == 'POST':
+        form = SimpleRegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)  # ✅ Log them in immediately
+            return redirect('dashboard')  # ✅ Redirect to dashboard
+    else:
+        form = SimpleRegisterForm()
+    return render(request, 'bookings/register.html', {'form': form})

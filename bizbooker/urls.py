@@ -24,6 +24,7 @@ urlpatterns = [
     # Auth routes
     path('login/', auth_views.LoginView.as_view(template_name='bookings/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
+      path("__reload__/", include("django_browser_reload.urls")),
 ]
 
 

@@ -1,72 +1,82 @@
 {% load static %}
+{% load tailwind_tags %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-  <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BizBooker</title>
-
-  <!-- Tailwind CSS + DaisyUI -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            brandbg: '#E9FFDB'
-          }
-        }
-      },
-      plugins: [daisyui]
-    }
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/daisyui@3.7.0"></script>
+<!-- In base.html's <head> -->
+  <link rel="stylesheet" href="{% static 'dist/output.css' %}">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 
-<body class="bg-brandbg text-gray-800 dark:text-white">
+<body class="bg-brandbg text-gray-800 min-h-screen flex flex-col">
 
-  <!-- HEADER (white, nav starts from center to right) -->
-  <header>
-    <div class="header-container">
-      <div class="logo-nav" style="display: flex; align-items: center; justify-content: space-between;">
-        <!-- LOGO -->
-        <div class="logo" style="display: flex; align-items: center; gap: 10px;">
-          <img src="{% static 'images/logo.svg' %}" alt="BizBooker Logo" style="height: 40px; width: 40px;" />
-          <span style="font-weight: bold; font-size: 1.2rem; color: #333;">BizBooker</span>
-        </div>
-  
-        <!-- NAVIGATION -->
-        <nav style="display: flex; gap: 1rem;">
-          {% if request.path != '/' %}
-            <a href="/">Home</a>
-          {% endif %}
-          <a href="{% url 'services' %}">Services</a>
-          <a href="{% url 'book_service' %}">Book</a>
+  <!-- ✅ NAVBAR -->
+  <header class="bg-white shadow-md sticky top-0 z-50">
+    <div class="navbar max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+
+      <!-- Logo -->
+      <a href="{% url 'home' %}" class="flex items-center gap-2">
+        <img src="{% static 'images/logo.svg' %}" alt="BizBooker Logo" class="w-8 h-8">
+        <span class="text-2xl font-bold text-green-600">BizBooker</span>
+      </a>
+
+      <!-- Desktop Menu -->
+      <div class="hidden lg:flex gap-4">
+        <a href="{% url 'home' %}" class="btn btn-ghost">Home</a>
+        <a href="{% url 'services' %}" class="btn btn-ghost">Services</a>
+        <a href="{% url 'book_service' %}" class="btn btn-ghost">Book</a>
+
+        {% if user.is_authenticated %}
+          <a href="{% url 'dashboard' %}" class="btn btn-ghost">Dashboard</a>
+          <a href="{% url 'my_bookings' %}" class="btn btn-ghost">My Bookings</a>
+          <a href="{% url 'logout_view' %}" class="btn btn-outline btn-sm text-red-600 border-red-400 hover:bg-red-100">Logout</a>
+        {% else %}
+          <a href="{% url 'login_view' %}" class="btn btn-outline btn-sm">Login</a>
+          <a href="{% url 'register' %}" class="btn btn-success btn-sm">Register</a>
+        {% endif %}
+      </div>
+
+      <!-- Mobile Menu -->
+      <div class="lg:hidden" x-data="{ open: false }">
+        <button @click="open = !open" class="btn btn-ghost btn-circle">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+               viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+
+        <div x-show="open" @click.outside="open = false"
+             class="absolute top-full right-4 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-[9999]">
+
+          <a href="{% url 'home' %}" class="block px-4 py-2 hover:bg-gray-100">Home</a>
+          <a href="{% url 'services' %}" class="block px-4 py-2 hover:bg-gray-100">Services</a>
+          <a href="{% url 'book_service' %}" class="block px-4 py-2 hover:bg-gray-100">Book</a>
+
           {% if user.is_authenticated %}
-            <a href="{% url 'my_bookings' %}">My Bookings</a>
-            <a href="{% url 'dashboard' %}">Dashboard</a>
-            <a href="{% url 'logout' %}" style="color: red;">Logout</a>
+            <a href="{% url 'dashboard' %}" class="block px-4 py-2 hover:bg-gray-100">Dashboard</a>
+            <a href="{% url 'my_bookings' %}" class="block px-4 py-2 hover:bg-gray-100">My Bookings</a>
+            <a href="{% url 'logout_view' %}" class="block px-4 py-2 hover:bg-red-100 text-red-600">Logout</a>
           {% else %}
-            <a href="{% url 'login' %}">Login</a>
-            <a href="{% url 'register' %}">Register</a>
+            <a href="{% url 'login_view' %}" class="block px-4 py-2 hover:bg-gray-100">Login</a>
+            <a href="{% url 'register' %}" class="block px-4 py-2 hover:bg-green-100">Register</a>
           {% endif %}
-        </nav>
+        </div>
       </div>
     </div>
   </header>
-  
-  
-  <!-- MAIN PAGE CONTENT -->
-  <main class="pt-24 min-h-screen">
+
+  <!-- ✅ MAIN CONTENT -->
+  <main class="flex-grow">
     {% block content %}
     {% endblock %}
   </main>
 
-  <!-- FOOTER (white background) -->
-  <footer class="bg-white text-center text-sm text-gray-600 py-6 border-t mt-12">
+  <!-- ✅ FOOTER -->
+  <footer class="bg-white text-center text-sm text-gray-600 py-6 border-t mt-8">
     © 2025 BizBooker. All rights reserved.
   </footer>
 

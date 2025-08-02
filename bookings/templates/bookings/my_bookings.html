@@ -1,42 +1,35 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block content %}
-<section class="main-wrapper">
-  <div class="main-content">
-    <div class="left">
-      <section class="bookings-section">
-        <h2 class="bookings-heading">📅 My Bookings</h2>
-        <div class="bookings-card glass-card">
-          {% if bookings %}
-            <table class="bookings-table">
-              <thead>
-                <tr>
-                  <th>Service</th>
-                  <th>Date</th>
-                  <th>Time</th>
-                  <th>Notes</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for booking in bookings %}
-                  <tr>
-                    <td>{{ booking.service.name }}</td>
-                    <td>{{ booking.timeslot.date }}</td>
-                    <td>{{ booking.timeslot.start_time }}</td>
-                    <td>{{ booking.notes|default:"—" }}</td>
-                  </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          {% else %}
-            <p>You haven't booked anything yet.</p>
-          {% endif %}
-        </div>
-      </section>
-    </div>
-    <div class="right">
-      <img src="{% static 'images/booking-form.svg' %}" alt="Bookings Image">
+<section class="min-h-screen py-16 bg-brandbg px-4">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">📅 My Bookings</h2>
+
+    <div class="overflow-x-auto bg-white p-6 shadow-lg rounded-lg">
+      {% if bookings %}
+        <table class="table w-full">
+          <thead>
+            <tr class="text-left">
+              <th>Service</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for booking in bookings %}
+              <tr class="hover:bg-gray-50">
+                <td>{{ booking.service.name }}</td>
+                <td>{{ booking.timeslot.date }}</td>
+                <td>{{ booking.timeslot.start_time }}</td>
+                <td>{{ booking.notes|default:"—" }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p class="text-center text-gray-600">You haven't booked anything yet.</p>
+      {% endif %}
     </div>
   </div>
 </section>

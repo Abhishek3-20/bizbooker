@@ -2,21 +2,26 @@
 {% load static %}
 {% block content %}
 
-<section class="services-section">
-  <h2 class="services-heading">Our Services</h2>
-  <div class="service-grid">
-    {% for service in services %}
-      <div class="service-card glass-card">
-        <div class="service-icon">{{ service.icon }}</div>
-        <h3>{{ service.name }}</h3>
-        <p>{{ service.description|default:"Professional service with quality results." }}</p>
-        {% if user.is_authenticated %}
-          <a href="#" class="service-btn">Book Service</a>
-        {% else %}
-          <a href="#" class="service-btn">Login to Book</a>
-        {% endif %}
-      </div>
-    {% endfor %}
+<section class="py-16 bg-brandbg">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="text-4xl font-bold text-center mb-12 text-green-800">Our Services</h2>
+    
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      {% for service in services %}
+        <div class="card bg-white shadow-xl border border-gray-100">
+          <div class="card-body items-center text-center">
+            <div class="text-4xl mb-2">{{ service.icon }}</div>
+            <h3 class="card-title text-xl font-semibold text-gray-800">{{ service.name }}</h3>
+            <p class="text-gray-600">{{ service.description|default:"Professional service with quality results." }}</p>
+            {% if user.is_authenticated %}
+              <a href="{% url 'book_service' %}" class="btn btn-success mt-4 w-full">Book Service</a>
+            {% else %}
+              <a href="{% url 'login' %}" class="btn btn-outline btn-accent mt-4 w-full">Login to Book</a>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
   </div>
 </section>
 
