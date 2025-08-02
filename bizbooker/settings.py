@@ -20,12 +20,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bookings',  # your app
+    'bookings',  
     'widget_tweaks',
     'tailwind',
-    
     'django_browser_reload',
- # Required
+
 ]
 import shutil
 NPM_BIN_PATH = shutil.which("npm")
