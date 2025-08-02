@@ -1,33 +1,13 @@
-
-Django==3.2.25
-
-
-gunicorn==23.0.0  
-
-whitenoise==6.7.0  
-
- 
-psycopg2-binary==2.9.9 
-
-
+Django==4.2.11  # Upgraded from 3.2.25 (required by djangorestframework, django-allauth)
+gunicorn==23.0.0
+whitenoise==6.7.0
+psycopg2-binary==2.9.9  # Prefer binary over source build
 python-dotenv==1.0.1
-
-
-pillow==11.3.0
-
-
+pillow==10.0.0  # Downgraded for moviepy compatibility
 qrcode==8.2
-
-
 django-widget-tweaks==1.5.0
-
-
 asgiref==3.9.1
 sqlparse==0.5.3
 pytz==2025.2
-
-
 colorama==0.4.6
 packaging==25.0
-
-
