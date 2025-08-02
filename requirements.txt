@@ -1,31 +1,32 @@
-# Django core 
+
 Django==3.2.25
 
-# WSGI server 
+
 # gunicorn==23.0.0  
-# Static files handling
+
 whitenoise==6.7.0  
 
-# PostgreSQL 
+ 
 # psycopg2-binary==2.9.9 
 
-# Environment variable loader
+
 python-dotenv==1.0.1
 
-# Image support
+
 pillow==11.3.0
 
-# QR code generation
+
 qrcode==8.2
 
-# Django form widget customization
+
 django-widget-tweaks==1.5.0
 
-# Required by Django
+
 asgiref==3.9.1
 sqlparse==0.5.3
 pytz==2025.2
 
-# Extras
+
 colorama==0.4.6
 packaging==25.0
+
