@@ -1,5 +1,6 @@
+from django.contrib.auth.models import User 
+from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
-
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
@@ -8,7 +9,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.utils import timezone
-
 from .models import Booking, Service
 from .forms import BookingForm
 
@@ -23,13 +23,15 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-
-            # 👇 This is what sends them to the dashboard
+            messages.success(request, f'Welcome back, {user.username}!')
             next_url = request.GET.get('next')
             return redirect(next_url if next_url else 'dashboard')
-
         else:
-            messages.error(request, 'Invalid username or password.')
+            # Check if username exists to give more specific feedback
+            if User.objects.filter(username=username).exists():
+                messages.error(request, 'Incorrect password. Please try again.')
+            else:
+                messages.error(request, 'Username not found. Please check your credentials or register.')
 
     return render(request, 'bookings/login.html')
 def logout_view(request):
@@ -135,9 +137,26 @@ def register_view(request):
     if request.method == 'POST':
         form = SimpleRegisterForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)  # ✅ Log them in immediately
-            return redirect('dashboard')  # ✅ Redirect to dashboard
+            username = form.cleaned_data.get('username')
+            email = form.cleaned_data.get('email')
+            
+            # Additional validation before saving
+            if User.objects.filter(username=username).exists():
+                messages.error(request, 'This username is already taken. Please choose another.')
+            elif User.objects.filter(email=email).exists():
+                messages.error(request, 'This email is already registered. Please use another email or login.')
+            else:
+                user = form.save()
+                login(request, user)
+                messages.success(request, f'Account created successfully! Welcome, {user.username}!')
+                return redirect('dashboard')
+        else:
+            # Form will automatically show field errors, but we can add a general message
+            messages.error(request, 'Please correct the errors below.')
     else:
         form = SimpleRegisterForm()
+    
     return render(request, 'bookings/register.html', {'form': form})
+
+def custom_404_view(request, exception):
+    return render(request, '404.html', status=404)
