@@ -2,12 +2,13 @@ from django.urls import path
 from . import views
 from .views import logout_view
 from django.contrib.auth import authenticate, login
-
 from .views import home, login_view, services_view, book_service, admin_dashboard, register_view
 from django.conf import settings
 from django.conf.urls.static import static
 from .models import Booking
+from django.conf.urls import handler404
 
+handler404 = 'bookings.views.custom_404_view'
 
 urlpatterns = [
     path('', home, name='home'),
