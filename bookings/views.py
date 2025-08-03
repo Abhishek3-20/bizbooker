@@ -152,7 +152,7 @@ def register_view(request):
                 return redirect('dashboard')
         else:
             # Form will automatically show field errors, but we can add a general message
-            messages.error(request, 'Please correct the errors below.')
+            messages.error(request, 'Invalid Credentials.')
     else:
         form = SimpleRegisterForm()
     
