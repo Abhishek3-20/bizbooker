@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'your-secret-key'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['bizbooker.pythonanywhere.com']
 
@@ -20,11 +20,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bookings',  
+    'bookings',  # your app
     'widget_tweaks',
     'tailwind',
+    
     'django_browser_reload',
-
+ # Required
 ]
 import shutil
 NPM_BIN_PATH = shutil.which("npm")
