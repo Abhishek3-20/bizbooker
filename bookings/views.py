@@ -120,12 +120,16 @@ def edit_booking(request, booking_id):
         form = BookingForm(request.POST, instance=booking)
         if form.is_valid():
             form.save()
+            messages.success(request, "Booking updated successfully!")
             return redirect('dashboard')
     else:
         form = BookingForm(instance=booking)
 
-    return render(request, 'booking_form.html', {'form': form, 'edit_mode': True})
-
+    return render(request, 'bookings/booking_form.html', {
+        'form': form,
+        'booking': booking,
+        'edit_mode': True  
+    })
 def delete_booking(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id)
 
