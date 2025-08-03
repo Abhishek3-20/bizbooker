@@ -2,6 +2,8 @@ from django import forms
 from .models import Booking
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.core.exceptions import ValidationError
+
 
 class BookingForm(forms.ModelForm):
     class Meta:
@@ -41,3 +43,14 @@ class SimpleRegisterForm(UserCreationForm):
 
     def clean_password1(self):
         return self.cleaned_data.get("password1") 
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if User.objects.filter(username=username).exists():
+            raise ValidationError("This username is already taken.")
+        return username
+    
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if User.objects.filter(email=email).exists():
+            raise ValidationError("This email is already registered.")
+        return email
