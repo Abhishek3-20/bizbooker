@@ -77,6 +77,11 @@ BizBooker is a modern, mobile friendly Django booking platform tailored for smal
 
       python manage.py runserver
 
+📝 License
+This project is licensed under the MIT License.
 
-git clone https://github.com/Abhishek3-20/bizbooker.git
-cd bizbooker
+👨‍💻 Author
+Abhishek Unni
+🌐 Portfolio: https://abhishek3-20.github.io
+📧 Contact
+  email : abhishekunni2003@gmail.com
